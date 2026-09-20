@@ -1,0 +1,18 @@
+# Local decompile workbench (APK, jadx/apktool, extracted sources) — not for sharing
+tooling/
+*.xapk
+*.apk
+
+# Agent workspace metadata
+.metadata/
+
+# Secrets (real Gizwits credentials + device IDs)
+.env
+
+# Local working notes (not for sharing)
+TODO.md
+
+# Python noise
+__pycache__/
+*.pyc
+.venv/
