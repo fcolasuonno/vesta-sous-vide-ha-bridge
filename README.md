@@ -58,6 +58,25 @@ cp .env.example .env
 
 CLI flags: `--once` (single poll then exit), `--no-ws` (disable WebSocket, polling only).
 
+## Local control (`--local`)
+
+Speaks the Gizwits GAgent protocol straight to the cooker on your LAN
+(UDP discovery, TCP session with passcode login) — no cloud round-trip for
+reads/writes. Cloud polling stays as automatic fallback, and the vendor app
+keeps working.
+
+```bash
+python bridge.py --local
+```
+
+Requirements: bridge host on the **same LAN** as the cooker (broadcast
+discovery needs L2 adjacency — `host`/`macvlan` Docker networking, not the
+default bridge), cooker powered + on WiFi. The passcode is fetched from your
+cloud bindings automatically; `GIZ_LAN_IP` pins the cooker IP (recommended
+with a DHCP reservation, since Docker-bridged containers can't broadcast),
+`GIZ_PASSCODE` overrides it. Coexistence with the vendor app is by design
+(GAgent serves both); all local testing used value-preserving writes.
+
 Prebuilt images are published on every GitHub release (plus manual runs) to
 both registries, `linux/amd64` + `linux/arm64`:
 

@@ -20,6 +20,8 @@ import traceback
 import urllib.request
 import urllib.error
 
+import local as lanmod
+
 APPID = os.getenv("GIZ_APPID", "9a6d8b3d46a246fca38dea306f98e19e")
 API = os.getenv("GIZ_API", "https://usapi.gizwits.com").rstrip("/")
 PRODUCT_KEY = "3db0c479df0a4df78948a1771489f493"
@@ -33,6 +35,7 @@ MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))
 MQTT_USER = os.getenv("MQTT_USER", "")
 MQTT_PASS = os.getenv("MQTT_PASS", "")
 DISCOVERY_PREFIX = os.getenv("DISCOVERY_PREFIX", "homeassistant")
+LAN_IP = os.getenv("GIZ_LAN_IP", "")
 
 
 def api(method, path, token=None, body=None):
@@ -96,6 +99,22 @@ def pick_device(token):
     d = cands[0]
     print(f"Using device did={d.get('did')} mac={d.get('mac')} name={d.get('dev_alias') or d.get('remark')}")
     return d["did"], d.get("host"), d.get("wss_port", 8880)
+
+
+def get_passcode(token, did):
+    """LAN passcode: explicit env wins, else the cloud bindings entry."""
+    if os.getenv("GIZ_PASSCODE"):
+        return os.getenv("GIZ_PASSCODE")
+    for path in ("/app/bindings", "/app/devices"):
+        try:
+            r = api("GET", path, token)
+        except RuntimeError:
+            continue
+        devs = r.get("devices", r if isinstance(r, list) else [])
+        for d in devs:
+            if d.get("did") == did and d.get("passcode"):
+                return d["passcode"]
+    return None
 
 
 def ws_loop(uid, token, did, ws_host, ws_port, on_attrs):
@@ -356,6 +375,54 @@ def main():
     state_topic = f"vesta/{did}/state"
     set_topic = f"vesta/{did}/set"
 
+    # --- LAN mode: GAgent session primary, cloud fallback ---
+    use_local = "--local" in sys.argv
+    lan = {"session": None, "ip": LAN_IP or None}
+    lan_lock = threading.Lock()
+    passcode = get_passcode(token, did) if use_local else None
+    if use_local and not passcode:
+        print("lan: no passcode found, staying cloud-only")
+        use_local = False
+
+    def lan_ensure():
+        if lan["session"] is not None:
+            return True
+        ip = lan["ip"]
+        if not ip:
+            found = lanmod.discover(did=did)
+            if not found:
+                return False
+            ip = found[0]["ip"]
+            lan["ip"] = ip
+        sess = lanmod.GAgentSession(ip, passcode)
+        sess.connect()
+        lan["session"] = sess
+        print(f"lan: connected {ip}")
+        return True
+
+    def lan_close():
+        try:
+            if lan["session"] is not None:
+                lan["session"].close()
+        except Exception:
+            pass
+        lan["session"] = None
+
+    def control(attrs, where="control"):
+        """Write via LAN when up, else cloud. Never raises."""
+        if use_local:
+            try:
+                lan_ensure()
+                with lan_lock:
+                    lan["session"].write(attrs)
+                print(f"{where} -> LAN", attrs)
+                return
+            except Exception:
+                traceback.print_exc()
+                lan_close()
+        r = api("POST", f"/app/control/{did}", token, {"attrs": attrs})
+        print(f"{where} ->", attrs, "resp:", json.dumps(r)[:200])
+
     mc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
     if MQTT_USER:
         mc.username_pw_set(MQTT_USER, MQTT_PASS)
@@ -437,8 +504,7 @@ def main():
             paired.update({k: int(v) for k, v in attrs.items()
                            if k in ("set_time_hour", "set_time_min")})
             attrs = {k: v for k, v in attrs.items() if k not in paired} | paired
-        r = api("POST", f"/app/control/{did}", token, {"attrs": attrs})
-        print("control ->", attrs, "resp:", json.dumps(r)[:200])
+        control(attrs)
 
     mc.message_callback_add(set_topic, on_set)
     node = f"vesta_{did[-6:]}"
@@ -480,13 +546,11 @@ def main():
             print(f"cook: {sel['protein']} / {sel['cut']} / {sel['doneness']}"
                   f" [{sel.get('fresh')}, {sel.get('thickness')}, {sel.get('bone')}]"
                   f" -> {ti}.{td}{'F' if use_f else 'C'}, {th}h{tm:02d}m")
-            api("POST", f"/app/control/{did}", token,
-                {"attrs": {"set_temp_integer": ti, "set_temp_decimal": td}})
+            control({"set_temp_integer": ti, "set_temp_decimal": td}, "cook")
             time.sleep(1)
-            api("POST", f"/app/control/{did}", token,
-                {"attrs": {"set_time_hour": th, "set_time_min": tm}})
+            control({"set_time_hour": th, "set_time_min": tm}, "cook")
             time.sleep(1)
-            api("POST", f"/app/control/{did}", token, {"attrs": {"onoff": True}})
+            control({"onoff": True}, "cook")
         except Exception:
             traceback.print_exc()
 
@@ -747,11 +811,27 @@ def main():
 
     once = "--once" in sys.argv
     while True:
-        latest = api("GET", f"/app/devdata/{did}/latest", token)
-        with raw_lock:
-            last_raw.clear()
-            last_raw.update(derive(latest)["raw"])
-            publish_state("polled")
+        got = False
+        if use_local:
+            try:
+                if not lan_ensure():
+                    raise RuntimeError("lan unavailable (no session)")
+                with lan_lock:
+                    attrs = lan["session"].read_status()
+                with raw_lock:
+                    last_raw.clear()
+                    last_raw.update(attrs)
+                    publish_state("lan")
+                got = True
+            except Exception:
+                traceback.print_exc()
+                lan_close()
+        if not got:
+            latest = api("GET", f"/app/devdata/{did}/latest", token)
+            with raw_lock:
+                last_raw.clear()
+                last_raw.update(derive(latest)["raw"])
+                publish_state("polled")
         if once:
             break
         time.sleep(POLL)
