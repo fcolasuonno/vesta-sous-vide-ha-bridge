@@ -35,7 +35,8 @@ MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))
 MQTT_USER = os.getenv("MQTT_USER", "")
 MQTT_PASS = os.getenv("MQTT_PASS", "")
 DISCOVERY_PREFIX = os.getenv("DISCOVERY_PREFIX", "homeassistant")
-LAN_IP = os.getenv("GIZ_LAN_IP", "")
+# Local mode: --local flag or LOCAL=1 env (same effect; env suits compose
+# files where overriding command: is undesirable).
 
 
 def api(method, path, token=None, body=None):
@@ -376,8 +377,8 @@ def main():
     set_topic = f"vesta/{did}/set"
 
     # --- LAN mode: GAgent session primary, cloud fallback ---
-    use_local = "--local" in sys.argv
-    lan = {"session": None, "ip": LAN_IP or None}
+    use_local = "--local" in sys.argv or os.getenv("LOCAL", "").lower() in ("1", "true", "yes")
+    lan = {"session": None, "ip": None}
     lan_lock = threading.Lock()
     passcode = get_passcode(token, did) if use_local else None
     if use_local and not passcode:
@@ -387,13 +388,13 @@ def main():
     def lan_ensure():
         if lan["session"] is not None:
             return True
-        ip = lan["ip"]
-        if not ip:
-            found = lanmod.discover(did=did)
-            if not found:
-                return False
-            ip = found[0]["ip"]
-            lan["ip"] = ip
+        # Always auto-discover: no IP configuration needed (requires a
+        # broadcast-capable network: host/macvlan, not plain docker bridge).
+        found = lanmod.discover(did=did)
+        if not found:
+            return False
+        ip = found[0]["ip"]
+        lan["ip"] = ip
         sess = lanmod.GAgentSession(ip, passcode)
         sess.connect()
         lan["session"] = sess
