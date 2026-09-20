@@ -22,8 +22,9 @@ cooker ⇄ Gizwits cloud (OpenAPI + WebSocket) ⇄ bridge ⇄ MQTT ⇄ Home Assi
   8 alert binary sensors. `fault_code`/`fault_bits` from the `error_code`
   datapoint are exposed in the state JSON for correlation (meanings undecoded).
 
-Protocol details (decompiled from the vendor APK): see `tooling/PROTOCOL.md`
-in the dev workspace — not shipped here.
+Protocol details were reverse-engineered from the vendor app (Gizwits AppID,
+product key, datapoint map, WebSocket wire format) during development; the
+bridge speaks exactly the same calls the app makes.
 
 ## Prerequisites
 
@@ -40,6 +41,22 @@ in the dev workspace — not shipped here.
 cp .env.example .env
 # edit .env: GIZ_USER + GIZ_PASS (or GIZ_UID + GIZ_TOKEN), MQTT_HOST, ...
 ```
+
+## Configuration (`.env`)
+
+| Variable | Default | Notes |
+|---|---|---|
+| `GIZ_USER` / `GIZ_PASS` | — | Vendor-app account (one of this or UID/token). Password truncated to 16 chars like the app |
+| `GIZ_UID` / `GIZ_TOKEN` | — | Alternative to user/pass (skip login) |
+| `GIZ_DID` | auto (first bound cooker) | Pin a specific device |
+| `GIZ_API` | `https://usapi.gizwits.com` | Use `https://euapi.gizwits.com` for EU accounts |
+| `GIZ_APPID` | `9a6d…19e` | Vesta's Gizwits AppID (don't change unless you know why) |
+| `MQTT_HOST` / `MQTT_PORT` | `mosquitto` / `1883` | Your broker |
+| `MQTT_USER` / `MQTT_PASS` | — | If the broker needs auth |
+| `POLL_INTERVAL` | `20` | OpenAPI poll seconds (WS push covers live changes; poll is the safety net) |
+| `DISCOVERY_PREFIX` | `homeassistant` | Must match HA's MQTT discovery prefix |
+
+CLI flags: `--once` (single poll then exit), `--no-ws` (disable WebSocket, polling only).
 
 Prebuilt images are published on every GitHub release (plus manual runs) to
 both registries, `linux/amd64` + `linux/arm64`:
