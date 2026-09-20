@@ -88,13 +88,16 @@ If Mosquitto runs in another container, put both on the same Docker network so
 ```yaml
 services:
   vesta-bridge:
-    build: /path/to/this/repo
+    image: ghcr.io/fcolasuonno/vesta-sous-vide-ha-bridge:v0.1.0
     container_name: vesta-bridge
     env_file: /path/to/this/repo/.env
     restart: unless-stopped
     depends_on:
       - mosquitto
 ```
+
+Use `:latest` for rolling updates or `:vX.Y.Z` to pin a release. Prefer building
+locally? Replace `image:` with `build: /path/to/this/repo`.
 
 ### Option C — direct Python (no Docker)
 
