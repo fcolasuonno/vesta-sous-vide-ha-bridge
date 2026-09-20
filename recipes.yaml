@@ -1,1052 +1,2462 @@
-# Sous-vide guide converted from the Vesta app (res/raw/item.xml).
-# temp_c is primary; temp_f kept for reference. time_min = guide minimum.
+# GENERATED from tooling/recipes/unified.yaml — do not hand-edit.
+# temp_c midpoint default; temp_lo/hi_c bound the target-temp control.
 - protein: "Beef"
   cut: "Tenderloin/Filet, Sirloin"
   doneness: "Rare"
   temp_c: 51.1
   temp_f: 124.0
+  temp_lo_c: 48.9
+  temp_hi_c: 53.3
   time_min: 45
+  time_max_min: 150
   info: "If cooking under 130°F(54°C), 2 1/2 hours is maximum. For every 1/2 inch in thickness, add 30 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 30
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Tenderloin/Filet, Sirloin"
   doneness: "Medium-Rare"
   temp_c: 55.3
   temp_f: 131.5
+  temp_lo_c: 53.9
+  temp_hi_c: 56.7
   time_min: 45
+  time_max_min: 240
   info: "If cooking under 130°F(54°C), 2 1/2 hours is maximum. For every 1/2 inch in thickness, add 30 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 30
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Tenderloin/Filet, Sirloin"
   doneness: "Medium"
   temp_c: 59.7
   temp_f: 139.5
+  temp_lo_c: 57.2
+  temp_hi_c: 62.2
   time_min: 45
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Tenderloin/Filet, Sirloin"
   doneness: "Medium-Well"
-  temp_c: 65.6
-  temp_f: 150.0
+  temp_c: 65.5
+  temp_f: 149.9
+  temp_lo_c: 62.8
+  temp_hi_c: 68.3
   time_min: 45
+  time_max_min: 210
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Tenderloin/Filet, Sirloin"
   doneness: "Well Done"
   temp_c: 70.0
   temp_f: 158.0
+  temp_lo_c: 68.9
+  temp_hi_c: 71.1
   time_min: 60
+  time_max_min: 180
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Strip, Rib-Eye, Porterhouse, T-Bone, Hanger, Flank, Skirt, Flat Iron"
   doneness: "Rare"
   temp_c: 51.1
   temp_f: 124.0
+  temp_lo_c: 48.9
+  temp_hi_c: 53.3
   time_min: 90
+  time_max_min: 150
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Strip, Rib-Eye, Porterhouse, T-Bone, Hanger, Flank, Skirt, Flat Iron"
   doneness: "Medium-Rare"
   temp_c: 55.3
   temp_f: 131.5
+  temp_lo_c: 53.9
+  temp_hi_c: 56.7
   time_min: 60
+  time_max_min: 240
   info: "If cooking under 130°F(54°C), 2 1/2 hours is maximum. For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Strip, Rib-Eye, Porterhouse, T-Bone, Hanger, Flank, Skirt, Flat Iron"
   doneness: "Medium"
   temp_c: 59.7
   temp_f: 139.5
+  temp_lo_c: 57.2
+  temp_hi_c: 62.2
   time_min: 60
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Strip, Rib-Eye, Porterhouse, T-Bone, Hanger, Flank, Skirt, Flat Iron"
   doneness: "Medium-Well"
-  temp_c: 65.6
-  temp_f: 150.0
+  temp_c: 65.5
+  temp_f: 149.9
+  temp_lo_c: 62.8
+  temp_hi_c: 68.3
   time_min: 60
+  time_max_min: 210
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Strip, Rib-Eye, Porterhouse, T-Bone, Hanger, Flank, Skirt, Flat Iron"
   doneness: "Well Done"
   temp_c: 70.6
-  temp_f: 159.0
+  temp_f: 159.1
+  temp_lo_c: 68.9
+  temp_hi_c: 72.2
   time_min: 60
+  time_max_min: 210
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Prime Rib"
   doneness: "Medium-Rare"
   temp_c: 57.5
   temp_f: 135.5
+  temp_lo_c: 56.1
+  temp_hi_c: 58.9
   time_min: 420
+  time_max_min: 960
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Prime Rib"
   doneness: "Medium"
   temp_c: 61.4
   temp_f: 142.5
+  temp_lo_c: 60.0
+  temp_hi_c: 62.8
   time_min: 360
+  time_max_min: 840
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Prime Rib"
   doneness: "Medium-Well"
   temp_c: 66.1
   temp_f: 151.0
+  temp_lo_c: 64.4
+  temp_hi_c: 67.8
   time_min: 300
+  time_max_min: 660
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Chuck, Brisket, Round, Rump, Short Ribs, Oxtails, Shank"
   doneness: "Rare"
-  temp_c: 54.7
-  temp_f: 130.5
+  temp_c: 54.8
+  temp_f: 130.6
+  temp_lo_c: 53.9
+  temp_hi_c: 55.6
   time_min: 1440
+  time_max_min: 2880
   info: "If cooking under 130°F(54°C), 2 1/2 hours is maximum."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Chuck, Brisket, Round, Rump, Short Ribs, Oxtails, Shank"
   doneness: "Medium-Rare"
   temp_c: 56.7
-  temp_f: 134.0
+  temp_f: 134.1
+  temp_lo_c: 56.1
+  temp_hi_c: 57.2
   time_min: 1440
+  time_max_min: 1440
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Chuck, Brisket, Round, Rump, Short Ribs, Oxtails, Shank"
   doneness: "Medium"
-  temp_c: 59.7
-  temp_f: 139.5
+  temp_c: 59.8
+  temp_f: 139.6
+  temp_lo_c: 57.8
+  temp_hi_c: 61.7
   time_min: 1440
+  time_max_min: 1440
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Chuck, Brisket, Round, Rump, Short Ribs, Oxtails, Shank"
   doneness: "Medium-Well"
   temp_c: 65.8
-  temp_f: 150.5
+  temp_f: 150.4
+  temp_lo_c: 62.2
+  temp_hi_c: 69.4
   time_min: 1440
+  time_max_min: 1440
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Chuck, Brisket, Round, Rump, Short Ribs, Oxtails, Shank"
   doneness: "Well Done"
   temp_c: 71.1
   temp_f: 160.0
+  temp_lo_c: 70.0
+  temp_hi_c: 72.2
   time_min: 300
+  time_max_min: 660
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Ground"
   doneness: "Rare"
-  temp_c: 48.3
-  temp_f: 119.0
+  temp_c: 48.4
+  temp_f: 119.1
+  temp_lo_c: 46.1
+  temp_hi_c: 50.6
   time_min: 45
+  time_max_min: 150
   info: "If cooking under 130°F(54°C), 2 1/2 hours is maximum."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Ground"
   doneness: "Medium-Rare"
   temp_c: 52.5
   temp_f: 126.5
+  temp_lo_c: 51.1
+  temp_hi_c: 53.9
   time_min: 45
+  time_max_min: 150
   info: "If cooking under 130°F(54°C), 2 1/2 hours is maximum."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Ground"
   doneness: "Medium"
-  temp_c: 56.4
-  temp_f: 133.5
+  temp_c: 56.3
+  temp_f: 133.3
+  temp_lo_c: 54.4
+  temp_hi_c: 58.3
   time_min: 45
+  time_max_min: 150
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Ground"
   doneness: "Medium-Well"
-  temp_c: 60.6
-  temp_f: 141.0
+  temp_c: 60.5
+  temp_f: 140.9
+  temp_lo_c: 58.9
+  temp_hi_c: 62.2
   time_min: 45
+  time_max_min: 210
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Ground"
   doneness: "Well Done"
-  temp_c: 65.6
-  temp_f: 150.0
+  temp_c: 65.5
+  temp_f: 149.9
+  temp_lo_c: 62.8
+  temp_hi_c: 68.3
   time_min: 45
+  time_max_min: 150
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Cheeks"
   doneness: "Steak-like"
-  temp_c: 60.8
-  temp_f: 141.5
+  temp_c: 60.9
+  temp_f: 141.6
+  temp_lo_c: 60.0
+  temp_hi_c: 61.7
   time_min: 2880
+  time_max_min: 2880
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Cheeks"
   doneness: "Braised-like"
   temp_c: 80.0
   temp_f: 176.0
+  temp_lo_c: 80.0
+  temp_hi_c: 80.0
   time_min: 540
+  time_max_min: 540
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Tongue"
   doneness: "Steak-like"
   temp_c: 70.0
   temp_f: 158.0
+  temp_lo_c: 70.0
+  temp_hi_c: 70.0
   time_min: 2880
+  time_max_min: 2880
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Tongue"
   doneness: "Braised-like"
   temp_c: 76.7
-  temp_f: 170.0
+  temp_f: 170.1
+  temp_lo_c: 76.7
+  temp_hi_c: 76.7
   time_min: 1440
+  time_max_min: 2880
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Liver"
   doneness: "Pink"
   temp_c: 61.7
-  temp_f: 143.0
+  temp_f: 143.1
+  temp_lo_c: 61.7
+  temp_hi_c: 61.7
   time_min: 90
+  time_max_min: 120
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Liver"
   doneness: "Medium"
   temp_c: 65.0
   temp_f: 149.0
+  temp_lo_c: 65.0
+  temp_hi_c: 65.0
   time_min: 90
+  time_max_min: 120
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Kidney"
   doneness: "Pink"
   temp_c: 56.1
   temp_f: 133.0
+  temp_lo_c: 56.1
+  temp_hi_c: 56.1
   time_min: 60
+  time_max_min: 120
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Beef"
   cut: "Kidney"
   doneness: "Medium"
   temp_c: 60.0
   temp_f: 140.0
+  temp_lo_c: 60.0
+  temp_hi_c: 60.0
   time_min: 60
+  time_max_min: 120
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Chop"
   doneness: "Medium-Rare"
   temp_c: 56.7
-  temp_f: 134.0
+  temp_f: 134.1
+  temp_lo_c: 56.7
+  temp_hi_c: 56.7
   time_min: 120
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Chop"
   doneness: "Medium"
   temp_c: 61.4
   temp_f: 142.5
+  temp_lo_c: 60.0
+  temp_hi_c: 62.8
   time_min: 120
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Chop"
   doneness: "Medium-Well"
   temp_c: 66.9
-  temp_f: 152.5
+  temp_f: 152.4
+  temp_lo_c: 65.6
+  temp_hi_c: 68.3
   time_min: 120
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Chop"
   doneness: "Well Done"
   temp_c: 71.1
   temp_f: 160.0
+  temp_lo_c: 71.1
+  temp_hi_c: 71.1
   time_min: 120
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Loin"
   doneness: "Medium-Rare"
   temp_c: 55.8
-  temp_f: 132.5
+  temp_f: 132.4
+  temp_lo_c: 54.4
+  temp_hi_c: 57.2
   time_min: 60
+  time_max_min: 240
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Loin"
   doneness: "Medium"
   temp_c: 61.4
   temp_f: 142.5
+  temp_lo_c: 60.0
+  temp_hi_c: 62.8
   time_min: 60
+  time_max_min: 240
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Loin"
   doneness: "Medium-Well"
   temp_c: 66.9
-  temp_f: 152.5
+  temp_f: 152.4
+  temp_lo_c: 65.6
+  temp_hi_c: 68.3
   time_min: 60
+  time_max_min: 240
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Loin"
   doneness: "Well Done"
   temp_c: 71.1
   temp_f: 160.0
+  temp_lo_c: 71.1
+  temp_hi_c: 71.1
   time_min: 60
+  time_max_min: 240
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Ribs"
   doneness: "Tender and succulent"
   temp_c: 62.8
   temp_f: 145.0
+  temp_lo_c: 62.8
+  temp_hi_c: 62.8
   time_min: 1440
+  time_max_min: 1440
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Ribs"
   doneness: "Traditional BBQ"
   temp_c: 73.9
   temp_f: 165.0
+  temp_lo_c: 73.9
+  temp_hi_c: 73.9
   time_min: 720
+  time_max_min: 1440
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Shoulder/Butt"
   doneness: "Sliceable"
   temp_c: 62.8
   temp_f: 145.0
+  temp_lo_c: 62.8
+  temp_hi_c: 62.8
   time_min: 1080
+  time_max_min: 1440
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Shoulder/Butt"
   doneness: "Shreddable"
   temp_c: 76.7
-  temp_f: 170.0
+  temp_f: 170.1
+  temp_lo_c: 76.7
+  temp_hi_c: 76.7
   time_min: 1080
+  time_max_min: 1440
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Belly"
   doneness: "Steak-like"
   temp_c: 69.4
-  temp_f: 157.0
+  temp_f: 156.9
+  temp_lo_c: 67.8
+  temp_hi_c: 71.1
   time_min: 1440
+  time_max_min: 1680
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Belly"
   doneness: "Braised-like"
   temp_c: 81.1
   temp_f: 178.0
+  temp_lo_c: 80.0
+  temp_hi_c: 82.2
   time_min: 420
+  time_max_min: 480
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Precooked Ham"
   doneness: "Traditional sliced"
   temp_c: 60.0
   temp_f: 140.0
+  temp_lo_c: 60.0
+  temp_hi_c: 60.0
   time_min: 180
+  time_max_min: 480
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Fresh Ham"
   doneness: "Traditional sliced"
   temp_c: 65.0
   temp_f: 149.0
+  temp_lo_c: 65.0
+  temp_hi_c: 65.0
   time_min: 600
+  time_max_min: 840
   info: "Add 2 hours for bone in cuts"
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 120
 - protein: "Pork"
   cut: "Shank"
   doneness: "Fork tender"
   temp_c: 90.0
   temp_f: 194.0
+  temp_lo_c: 90.0
+  temp_hi_c: 90.0
   time_min: 360
+  time_max_min: 360
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Hock/Knuckle"
   doneness: "Fall off the bone tender"
   temp_c: 57.2
   temp_f: 135.0
+  temp_lo_c: 57.2
+  temp_hi_c: 57.2
   time_min: 4320
+  time_max_min: 4320
   info: "For optimal results, smoke first in a smoker box for 15 - 20 minutes."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Bacon"
   doneness: "Perfect"
   temp_c: 64.2
-  temp_f: 147.5
+  temp_f: 147.6
+  temp_lo_c: 62.8
+  temp_hi_c: 65.6
   time_min: 360
+  time_max_min: 720
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Sausage"
   doneness: "Medium-Rare"
   temp_c: 60.0
   temp_f: 140.0
+  temp_lo_c: 60.0
+  temp_hi_c: 60.0
   time_min: 45
+  time_max_min: 240
   info: "For every 1/4 inch in thickness over 1/2 inch, add 20 to 30 minutes."
+  thick_per_in: 0.25
+  thick_over_in: 0.5
+  thick_add_min: 25.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Sausage"
   doneness: "Medium"
   temp_c: 65.6
-  temp_f: 150.0
+  temp_f: 150.1
+  temp_lo_c: 65.6
+  temp_hi_c: 65.6
   time_min: 45
+  time_max_min: 240
   info: "For every 1/4 inch in thickness over 1/2 inch, add 20 to 30 minutes."
+  thick_per_in: 0.25
+  thick_over_in: 0.5
+  thick_add_min: 25.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Pork"
   cut: "Sausage"
   doneness: "Medium-Well"
   temp_c: 71.1
   temp_f: 160.0
+  temp_lo_c: 71.1
+  temp_hi_c: 71.1
   time_min: 45
+  time_max_min: 240
   info: "For every 1/4 inch in thickness over 1/2 inch, add 20 to 30 minutes."
+  thick_per_in: 0.25
+  thick_over_in: 0.5
+  thick_add_min: 25.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Chicken Breast"
   doneness: "Tender and juicy for cold chicken salad"
   temp_c: 65.6
-  temp_f: 150.0
+  temp_f: 150.1
+  temp_lo_c: 65.6
+  temp_hi_c: 65.6
   time_min: 60
+  time_max_min: 240
   info: "For bone-in, double the times."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: true
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Chicken Breast"
   doneness: "Very soft and juicy, served hot"
   temp_c: 63.3
-  temp_f: 146.0
+  temp_f: 145.9
+  temp_lo_c: 63.3
+  temp_hi_c: 63.3
   time_min: 90
+  time_max_min: 240
   info: "For bone-in, double the times."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: true
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Chicken Breast"
   doneness: "Juicy and tender, served hot"
   temp_c: 68.3
-  temp_f: 155.0
+  temp_f: 154.9
+  temp_lo_c: 68.3
+  temp_hi_c: 68.3
   time_min: 60
+  time_max_min: 240
   info: "For bone-in, double the times."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: true
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Chicken Dark Meat"
   doneness: "Tender and juicy for cold chicken salad"
   temp_c: 65.6
-  temp_f: 150.0
+  temp_f: 150.1
+  temp_lo_c: 65.6
+  temp_hi_c: 65.6
   time_min: 60
+  time_max_min: 240
   info: "For bone-in, double the times."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: true
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Chicken Dark Meat"
   doneness: "Very soft and juicy, served hot"
-  temp_c: 76.9
-  temp_f: 170.5
+  temp_c: 77.0
+  temp_f: 170.6
+  temp_lo_c: 73.9
+  temp_hi_c: 80.0
   time_min: 60
+  time_max_min: 240
   info: "For bone-in, double the times."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: true
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Chicken Dark Meat"
   doneness: "Juicy and tender, served hot"
-  temp_c: 76.9
-  temp_f: 170.5
+  temp_c: 77.0
+  temp_f: 170.6
+  temp_lo_c: 73.9
+  temp_hi_c: 80.0
   time_min: 240
+  time_max_min: 480
   info: "For bone-in, double the times."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: true
+  bone_add_min: 0
+- protein: "Poultry"
+  cut: "Chicken Dark Meat"
+  doneness: "Very firm and juicy"
+  temp_c: 65.6
+  temp_f: 150.1
+  temp_lo_c: 65.6
+  temp_hi_c: 65.6
+  time_min: 60
+  time_max_min: 240
+  info: "For bone-in, double the times."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: true
+  bone_add_min: 0
+- protein: "Poultry"
+  cut: "Chicken Dark Meat"
+  doneness: "Tender and very juicy"
+  temp_c: 77.0
+  temp_f: 170.6
+  temp_lo_c: 73.9
+  temp_hi_c: 80.0
+  time_min: 60
+  time_max_min: 240
+  info: "For bone-in, double the times."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: true
+  bone_add_min: 0
+- protein: "Poultry"
+  cut: "Chicken Dark Meat"
+  doneness: "Fall off the bone tender"
+  temp_c: 77.0
+  temp_f: 170.6
+  temp_lo_c: 73.9
+  temp_hi_c: 80.0
+  time_min: 240
+  time_max_min: 480
+  info: "For bone-in, double the times."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: true
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Turkey Breast"
   doneness: "Very pink, soft, extra moist"
   temp_c: 55.6
-  temp_f: 132.0
+  temp_f: 132.1
+  temp_lo_c: 55.6
+  temp_hi_c: 55.6
   time_min: 240
+  time_max_min: 240
   info: "For bone-in, double the times."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: true
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Turkey Breast"
   doneness: "Pale pink, soft, moist"
   temp_c: 58.9
   temp_f: 138.0
+  temp_lo_c: 58.9
+  temp_hi_c: 58.9
   time_min: 180
+  time_max_min: 180
   info: "For bone-in, double the times."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: true
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Turkey Breast"
   doneness: "White, tender, moist"
   temp_c: 63.3
-  temp_f: 146.0
+  temp_f: 145.9
+  temp_lo_c: 63.3
+  temp_hi_c: 63.3
   time_min: 150
+  time_max_min: 360
   info: "For bone-in, double the times."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: true
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Turkey Breast"
   doneness: "White, traditional roast texture"
   temp_c: 66.7
-  temp_f: 152.0
+  temp_f: 152.1
+  temp_lo_c: 66.7
+  temp_hi_c: 66.7
   time_min: 120
+  time_max_min: 120
   info: "For bone-in, double the times."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: true
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Turkey Dark Meat"
   doneness: "Tender and very juicy"
   temp_c: 65.0
   temp_f: 149.0
+  temp_lo_c: 65.0
+  temp_hi_c: 65.0
   time_min: 240
+  time_max_min: 360
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Turkey Dark Meat"
   doneness: "Shreddable"
-  temp_c: 76.9
-  temp_f: 170.5
+  temp_c: 77.0
+  temp_f: 170.6
+  temp_lo_c: 73.9
+  temp_hi_c: 80.0
   time_min: 480
+  time_max_min: 720
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Duck Breast"
   doneness: "Medium-Rare"
   temp_c: 56.1
   temp_f: 133.0
+  temp_lo_c: 55.0
+  temp_hi_c: 57.2
   time_min: 120
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 60 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 60.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Duck Breast"
   doneness: "Medium"
   temp_c: 61.4
   temp_f: 142.5
+  temp_lo_c: 60.0
+  temp_hi_c: 62.8
   time_min: 120
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 60 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 60.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Duck Leg"
   doneness: "Medium-Rare"
   temp_c: 56.4
   temp_f: 133.5
+  temp_lo_c: 55.0
+  temp_hi_c: 57.8
   time_min: 180
+  time_max_min: 720
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Duck Leg"
   doneness: "Well Done"
   temp_c: 80.0
   temp_f: 176.0
+  temp_lo_c: 80.0
+  temp_hi_c: 80.0
   time_min: 480
+  time_max_min: 600
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Duck Leg"
   doneness: "Confit"
   temp_c: 75.0
   temp_f: 167.0
+  temp_lo_c: 75.0
+  temp_hi_c: 75.0
   time_min: 600
+  time_max_min: 1200
   info: "For confit, chill and rest in rendered fat after cook before searing."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Goose Breast"
   doneness: "Tender and juicy"
   temp_c: 57.2
   temp_f: 135.0
+  temp_lo_c: 57.2
+  temp_hi_c: 57.2
   time_min: 120
+  time_max_min: 120
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Goose Leg"
   doneness: "Melt in your mouth and juicy"
   temp_c: 68.3
-  temp_f: 155.0
+  temp_f: 154.9
+  temp_lo_c: 68.3
+  temp_hi_c: 68.3
   time_min: 1440
+  time_max_min: 1440
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Goose Leg"
   doneness: "A bit more toothsome and juicy"
   temp_c: 76.7
-  temp_f: 170.0
+  temp_f: 170.1
+  temp_lo_c: 76.7
+  temp_hi_c: 76.7
   time_min: 720
+  time_max_min: 720
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Game Hen"
   doneness: "Not stuffed"
   temp_c: 65.6
-  temp_f: 150.0
+  temp_f: 150.1
+  temp_lo_c: 65.6
+  temp_hi_c: 65.6
   time_min: 120
+  time_max_min: 180
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Poultry"
   cut: "Game Hen"
   doneness: "Stuffed"
   temp_c: 65.6
-  temp_f: 150.0
+  temp_f: 150.1
+  temp_lo_c: 65.6
+  temp_hi_c: 65.6
   time_min: 240
+  time_max_min: 300
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Eggs"
   cut: "In Shell"
   doneness: "Soft cooked, runny yolk"
   temp_c: 60.0
   temp_f: 140.0
+  temp_lo_c: 60.0
+  temp_hi_c: 60.0
   time_min: 45
+  time_max_min: 45
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Eggs"
   cut: "In Shell"
   doneness: "Soft cooked, sauce like yolk"
   temp_c: 62.8
   temp_f: 145.0
+  temp_lo_c: 62.8
+  temp_hi_c: 62.8
   time_min: 45
+  time_max_min: 45
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Eggs"
   cut: "In Shell"
   doneness: "Soft cooked, firmer yolk"
   temp_c: 65.6
-  temp_f: 150.0
+  temp_f: 150.1
+  temp_lo_c: 65.6
+  temp_hi_c: 65.6
   time_min: 45
+  time_max_min: 45
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Eggs"
   cut: "In Shell"
   doneness: "Hard cooked, solid but tender"
   temp_c: 71.1
   temp_f: 160.0
+  temp_lo_c: 71.1
+  temp_hi_c: 71.1
   time_min: 45
+  time_max_min: 45
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Eggs"
   cut: "Scrambled"
   doneness: "Tender"
   temp_c: 75.0
   temp_f: 167.0
+  temp_lo_c: 75.0
+  temp_hi_c: 75.0
   time_min: 20
+  time_max_min: 20
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Fillet"
   doneness: "Very rare, firm texture like sashimi"
   temp_c: 40.6
-  temp_f: 105.0
+  temp_f: 105.1
+  temp_lo_c: 40.6
+  temp_hi_c: 40.6
   time_min: 20
+  time_max_min: 30
   info: "For every 1 inch in thickness over 1 inch, add 10 minutes."
+  thick_per_in: 1.0
+  thick_over_in: 1.0
+  thick_add_min: 10.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Fillet"
   doneness: "Rare, soft and buttery"
   temp_c: 46.1
   temp_f: 115.0
+  temp_lo_c: 46.1
+  temp_hi_c: 46.1
   time_min: 20
+  time_max_min: 30
   info: "For every 1 inch in thickness over 1 inch, add 10 minutes."
+  thick_per_in: 1.0
+  thick_over_in: 1.0
+  thick_add_min: 10.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Fillet"
   doneness: "Medium rare, translucent and starting to flake"
   temp_c: 52.2
   temp_f: 126.0
+  temp_lo_c: 52.2
+  temp_hi_c: 52.2
   time_min: 20
+  time_max_min: 30
   info: "For every 1 inch in thickness over 1 inch, add 10 minutes."
+  thick_per_in: 1.0
+  thick_over_in: 1.0
+  thick_add_min: 10.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Fillet"
   doneness: "Medium, very moist, tender, and flaky"
   temp_c: 53.3
-  temp_f: 128.0
+  temp_f: 127.9
+  temp_lo_c: 53.3
+  temp_hi_c: 53.3
   time_min: 20
+  time_max_min: 30
   info: "For every 1 inch in thickness over 1 inch, add 10 minutes."
+  thick_per_in: 1.0
+  thick_over_in: 1.0
+  thick_add_min: 10.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Fillet"
   doneness: "Firm, moist and flaky"
   temp_c: 55.6
-  temp_f: 132.0
+  temp_f: 132.1
+  temp_lo_c: 55.6
+  temp_hi_c: 55.6
   time_min: 20
+  time_max_min: 30
   info: "For every 1 inch in thickness over 1 inch, add 10 minutes."
+  thick_per_in: 1.0
+  thick_over_in: 1.0
+  thick_add_min: 10.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Prawns"
   doneness: "Translucent and semi-raw with a soft, buttery texture"
   temp_c: 51.7
-  temp_f: 125.0
+  temp_f: 125.1
+  temp_lo_c: 51.7
+  temp_hi_c: 51.7
   time_min: 15
+  time_max_min: 30
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Prawns"
   doneness: "Nearly opaque and very tender with a hint of firmness."
   temp_c: 54.4
-  temp_f: 130.0
+  temp_f: 129.9
+  temp_lo_c: 54.4
+  temp_hi_c: 54.4
   time_min: 15
+  time_max_min: 30
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Prawns"
   doneness: "Barely opaque, moist, juicy, and tender"
   temp_c: 57.2
   temp_f: 135.0
+  temp_lo_c: 57.2
+  temp_hi_c: 57.2
   time_min: 15
+  time_max_min: 30
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Prawns"
   doneness: "Traditional poached texture with good bounce and a snappy, juicy bite"
   temp_c: 60.0
   temp_f: 140.0
+  temp_lo_c: 60.0
+  temp_hi_c: 60.0
   time_min: 15
+  time_max_min: 30
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Lobster Claws"
   doneness: "Traditional texture"
   temp_c: 65.6
-  temp_f: 150.0
+  temp_f: 150.1
+  temp_lo_c: 65.6
+  temp_hi_c: 65.6
   time_min: 20
+  time_max_min: 60
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Lobster Tail"
   doneness: "Translucent and soft"
   temp_c: 48.9
   temp_f: 120.0
+  temp_lo_c: 48.9
+  temp_hi_c: 48.9
   time_min: 20
+  time_max_min: 60
   info: "Blanche in boiling water for 1 minute before cooking sous vide for easier de-shelling."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Lobster Tail"
   doneness: "Succulent and tender"
   temp_c: 54.4
-  temp_f: 130.0
+  temp_f: 129.9
+  temp_lo_c: 54.4
+  temp_hi_c: 54.4
   time_min: 20
+  time_max_min: 60
   info: "Blanche in boiling water for 1 minute before cooking sous vide for easier de-shelling."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Lobster Tail"
   doneness: "Traditional texture"
   temp_c: 60.0
   temp_f: 140.0
+  temp_lo_c: 60.0
+  temp_hi_c: 60.0
   time_min: 20
+  time_max_min: 60
   info: "Blanche in boiling water for 1 minute before cooking sous vide for easier de-shelling."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Scallops"
   doneness: "Perfect"
   temp_c: 55.6
-  temp_f: 132.0
+  temp_f: 132.1
+  temp_lo_c: 55.6
+  temp_hi_c: 55.6
   time_min: 30
+  time_max_min: 60
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Octopus"
   doneness: "Slow cook"
   temp_c: 60.0
   temp_f: 140.0
+  temp_lo_c: 60.0
+  temp_hi_c: 60.0
   time_min: 240
+  time_max_min: 480
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Octopus"
   doneness: "Fast cook"
   temp_c: 82.2
   temp_f: 180.0
+  temp_lo_c: 82.2
+  temp_hi_c: 82.2
   time_min: 120
+  time_max_min: 240
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Squid"
   doneness: "Pre sear"
   temp_c: 45.0
   temp_f: 113.0
+  temp_lo_c: 45.0
+  temp_hi_c: 45.0
   time_min: 45
+  time_max_min: 60
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Squid"
   doneness: "Low heat"
   temp_c: 58.9
   temp_f: 138.0
+  temp_lo_c: 58.9
+  temp_hi_c: 58.9
   time_min: 120
+  time_max_min: 240
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Squid"
   doneness: "High heat"
   temp_c: 82.2
   temp_f: 180.0
+  temp_lo_c: 82.2
+  temp_hi_c: 82.2
   time_min: 60
+  time_max_min: 120
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fish and Seafood"
   cut: "Crab Legs"
   doneness: "Perfect"
   temp_c: 57.8
   temp_f: 136.0
+  temp_lo_c: 55.6
+  temp_hi_c: 60.0
   time_min: 30
+  time_max_min: 40
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Loin Chop or Roast"
   doneness: "Rare"
   temp_c: 51.7
-  temp_f: 125.0
+  temp_f: 125.1
+  temp_lo_c: 51.7
+  temp_hi_c: 51.7
   time_min: 60
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Loin Chop or Roast"
   doneness: "Medium-Rare"
   temp_c: 55.0
   temp_f: 131.0
+  temp_lo_c: 55.0
+  temp_hi_c: 55.0
   time_min: 60
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Loin Chop or Roast"
   doneness: "Medium"
   temp_c: 60.0
   temp_f: 140.0
+  temp_lo_c: 60.0
+  temp_hi_c: 60.0
   time_min: 60
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Rack"
   doneness: "Medium-Rare"
   temp_c: 54.2
-  temp_f: 129.5
+  temp_f: 129.6
+  temp_lo_c: 51.7
+  temp_hi_c: 56.7
   time_min: 60
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Rack"
   doneness: "Medium"
   temp_c: 59.7
   temp_f: 139.5
+  temp_lo_c: 57.2
+  temp_hi_c: 62.2
   time_min: 60
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Rack"
   doneness: "Medium-Well"
   temp_c: 65.3
   temp_f: 149.5
+  temp_lo_c: 62.8
+  temp_hi_c: 67.8
   time_min: 60
+  time_max_min: 240
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Leg"
   doneness: "Steak-like/Medium-Rare"
   temp_c: 55.0
   temp_f: 131.0
+  temp_lo_c: 55.0
+  temp_hi_c: 55.0
   time_min: 600
+  time_max_min: 840
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Leg"
   doneness: "Steak-like/Medium"
   temp_c: 60.0
   temp_f: 140.0
+  temp_lo_c: 60.0
+  temp_hi_c: 60.0
   time_min: 600
+  time_max_min: 840
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Leg"
   doneness: "Braised-like/Medium-Rare"
   temp_c: 55.0
   temp_f: 131.0
+  temp_lo_c: 55.0
+  temp_hi_c: 55.0
   time_min: 1080
+  time_max_min: 1440
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Leg"
   doneness: "Braised-like/Medium"
   temp_c: 60.0
   temp_f: 140.0
+  temp_lo_c: 60.0
+  temp_hi_c: 60.0
   time_min: 1080
+  time_max_min: 1440
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Arm or Blade Chop"
   doneness: "Medium-Rare"
   temp_c: 55.0
   temp_f: 131.0
+  temp_lo_c: 55.0
+  temp_hi_c: 55.0
   time_min: 1080
+  time_max_min: 1440
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Arm or Blade Chop"
   doneness: "Medium"
   temp_c: 60.0
   temp_f: 140.0
+  temp_lo_c: 60.0
+  temp_hi_c: 60.0
   time_min: 1080
+  time_max_min: 1440
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Shank, Shoulder, Ribs, Osso Buco, Breast, Neck"
   doneness: "Steak-like/Medium-Rare"
   temp_c: 55.0
   temp_f: 131.0
+  temp_lo_c: 55.0
+  temp_hi_c: 55.0
   time_min: 1080
+  time_max_min: 1440
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Shank, Shoulder, Ribs, Osso Buco, Breast, Neck"
   doneness: "Steak-like/Medium"
   temp_c: 60.0
   temp_f: 140.0
+  temp_lo_c: 60.0
+  temp_hi_c: 60.0
   time_min: 1080
+  time_max_min: 1440
   info: "For every 1/2 inch in thickness over 1 inch, add 30 to 40 minutes."
+  thick_per_in: 0.5
+  thick_over_in: 1.0
+  thick_add_min: 35.0
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Shank, Shoulder, Ribs, Osso Buco, Breast, Neck"
   doneness: "Braised-like/Firm but shreddable"
   temp_c: 68.9
   temp_f: 156.0
+  temp_lo_c: 68.9
+  temp_hi_c: 68.9
   time_min: 1440
+  time_max_min: 2880
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Shank, Shoulder, Ribs, Osso Buco, Breast, Neck"
   doneness: "Braised-like/More fall apart"
   temp_c: 73.9
   temp_f: 165.0
+  temp_lo_c: 73.9
+  temp_hi_c: 73.9
   time_min: 1080
+  time_max_min: 1440
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Lamb"
   cut: "Shank, Shoulder, Ribs, Osso Buco, Breast, Neck"
   doneness: "Braised-like/Really fall apart"
   temp_c: 80.0
   temp_f: 176.0
+  temp_lo_c: 80.0
+  temp_hi_c: 80.0
   time_min: 720
+  time_max_min: 1080
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fruits and Vegetables"
   cut: "Root (Carrots, Potato, Parsnips, Beets, Celery Root, etc)"
   doneness: "pieces up to 1 inch thick"
   temp_c: 83.9
   temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
   time_min: 60
+  time_max_min: 120
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fruits and Vegetables"
   cut: "Root (Carrots, Potato, Parsnips, Beets, Celery Root, etc)"
   doneness: "pieces over 1 inch thick"
   temp_c: 83.9
   temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
   time_min: 120
+  time_max_min: 240
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fruits and Vegetables"
   cut: "Tender (Green Beans, Corn, Peas, Brocolli, Asparagus, Cauliflower, Squash, Eggplant, Onions, etc)"
   doneness: "pieces up to 1 inch thick"
   temp_c: 83.9
   temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
   time_min: 30
+  time_max_min: 90
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fruits and Vegetables"
   cut: "Stone fruits (Apricots, Peaches, Nectarines, etc)"
   doneness: "pieces up to 1 inch thick"
   temp_c: 83.9
   temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
   time_min: 30
+  time_max_min: 90
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fruits and Vegetables"
   cut: "Citrus"
   doneness: "pieces up to 1 inch thick"
   temp_c: 83.9
   temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
   time_min: 30
+  time_max_min: 90
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fruits and Vegetables"
   cut: "Hard fruits (Apples, Pears, etc)"
   doneness: "pieces up to 1 inch thick"
   temp_c: 83.9
   temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
   time_min: 30
+  time_max_min: 90
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fruits and Vegetables"
   cut: "Melon"
   doneness: "pieces up to 1 inch thick"
   temp_c: 83.9
   temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
   time_min: 30
+  time_max_min: 90
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Fruits and Vegetables"
   cut: "Berries"
   doneness: "pieces up to 1 inch thick"
   temp_c: 83.9
   temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
   time_min: 30
+  time_max_min: 90
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Grains and Legumes"
   cut: "White Rice"
   doneness: "Fluffy and tender"
   temp_c: 93.3
-  temp_f: 200.0
+  temp_f: 199.9
+  temp_lo_c: 93.3
+  temp_hi_c: 93.3
   time_min: 25
+  time_max_min: 25
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Grains and Legumes"
   cut: "Brown Rice"
   doneness: "Fluffy and tender"
   temp_c: 93.3
-  temp_f: 200.0
+  temp_f: 199.9
+  temp_lo_c: 93.3
+  temp_hi_c: 93.3
   time_min: 65
+  time_max_min: 65
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Grains and Legumes"
   cut: "Wild Rice"
   doneness: "Fluffy and tender"
   temp_c: 93.3
-  temp_f: 200.0
+  temp_f: 199.9
+  temp_lo_c: 93.3
+  temp_hi_c: 93.3
   time_min: 65
+  time_max_min: 65
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Grains and Legumes"
   cut: "Lentils (French, Red, Green, etc)"
   doneness: "Tender"
   temp_c: 86.4
   temp_f: 187.5
+  temp_lo_c: 85.0
+  temp_hi_c: 87.8
   time_min: 60
+  time_max_min: 90
   info: "If using the lower temperature, cook for the longer period."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Grains and Legumes"
   cut: "Dried Beans (Red, Pinto, Navy, etc)"
   doneness: "Presoaked"
   temp_c: 90.0
   temp_f: 194.0
+  temp_lo_c: 90.0
+  temp_hi_c: 90.0
   time_min: 75
+  time_max_min: 90
   info: "Remember to not add acidic elements or the beans will not soften. Check at 75 minutes using a pinch test."
-- protein: "Grains and Legumes"
-  cut: "Dried Peas (Chickpeas, Blak-eyed peas, etc)"
-  doneness: "Presoaked"
-  temp_c: 88.9
-  temp_f: 192.0
-  time_min: 180
-  info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Grains and Legumes"
   cut: "Dried Beans (Red, Pinto, Navy, etc)"
   doneness: "Not presoaked"
   temp_c: 87.8
   temp_f: 190.0
+  temp_lo_c: 87.8
+  temp_hi_c: 87.8
   time_min: 360
+  time_max_min: 360
   info: "Remember to not add acidic elements or the beans will not soften."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
+- protein: "Grains and Legumes"
+  cut: "Dried Peas (Chickpeas, Blak-eyed peas, etc)"
+  doneness: "Presoaked"
+  temp_c: 88.9
+  temp_f: 192.0
+  temp_lo_c: 87.8
+  temp_hi_c: 90.0
+  time_min: 180
+  time_max_min: 240
+  info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Grains and Legumes"
   cut: "Barley"
   doneness: "Delightfully toothy"
   temp_c: 88.9
   temp_f: 192.0
+  temp_lo_c: 87.8
+  temp_hi_c: 90.0
   time_min: 60
+  time_max_min: 60
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Grains and Legumes"
   cut: "Farro"
   doneness: "Delightfully toothy"
   temp_c: 83.9
   temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
   time_min: 60
+  time_max_min: 60
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Desserts"
   cut: "Custard"
   doneness: "Crème Brulee"
   temp_c: 87.8
   temp_f: 190.0
+  temp_lo_c: 87.8
+  temp_hi_c: 87.8
   time_min: 60
+  time_max_min: 90
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Desserts"
   cut: "Custard"
   doneness: "Dulce le Leche"
   temp_c: 85.0
   temp_f: 185.0
+  temp_lo_c: 85.0
+  temp_hi_c: 85.0
   time_min: 780
+  time_max_min: 840
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Desserts"
   cut: "Poached"
   doneness: "Pears"
   temp_c: 85.0
   temp_f: 185.0
+  temp_lo_c: 85.0
+  temp_hi_c: 85.0
   time_min: 60
+  time_max_min: 90
   info: "Check for softness around the 50 minute mark."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Sauces and Syrups"
   cut: "Vegetable"
   doneness: "Marinara"
   temp_c: 83.3
-  temp_f: 182.0
+  temp_f: 181.9
+  temp_lo_c: 83.3
+  temp_hi_c: 83.3
   time_min: 50
+  time_max_min: 75
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Sauces and Syrups"
   cut: "Vegetable"
   doneness: "Chili Colorado"
   temp_c: 71.1
   temp_f: 160.0
+  temp_lo_c: 71.1
+  temp_hi_c: 71.1
   time_min: 1440
+  time_max_min: 1440
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Sauces and Syrups"
   cut: "Vegetable"
   doneness: "Chili Verde"
   temp_c: 65.6
-  temp_f: 150.0
+  temp_f: 150.1
+  temp_lo_c: 65.6
+  temp_hi_c: 65.6
   time_min: 2880
+  time_max_min: 2880
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Sauces and Syrups"
   cut: "Meat"
   doneness: "Barbacoa"
   temp_c: 82.2
   temp_f: 180.0
+  temp_lo_c: 82.2
+  temp_hi_c: 82.2
   time_min: 480
+  time_max_min: 600
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Sauces and Syrups"
   cut: "Meat"
   doneness: "Bolognese"
   temp_c: 80.0
   temp_f: 176.0
+  temp_lo_c: 80.0
+  temp_hi_c: 80.0
   time_min: 300
+  time_max_min: 360
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Sauces and Syrups"
   cut: "Dairy"
   doneness: "Bechamel"
   temp_c: 83.9
   temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
   time_min: 60
+  time_max_min: 90
   info: "Empty pouch into resealable container and stir in one direction to incorporate the butter."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Sauces and Syrups"
   cut: "Dairy"
   doneness: "Velouté"
   temp_c: 83.9
   temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
   time_min: 60
+  time_max_min: 90
   info: "Empty pouch into resealable container and stir in one direction to incorporate the butter."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Sauces and Syrups"
   cut: "Dairy"
   doneness: "Toasted Cream"
   temp_c: 82.2
   temp_f: 180.0
+  temp_lo_c: 82.2
+  temp_hi_c: 82.2
   time_min: 2880
+  time_max_min: 2880
   info: "Before use, chill after cooking sous vide."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Sauces and Syrups"
   cut: "Fruit"
   doneness: "Applesauce"
   temp_c: 82.2
   temp_f: 180.0
+  temp_lo_c: 82.2
+  temp_hi_c: 82.2
   time_min: 45
+  time_max_min: 60
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Sauces and Syrups"
   cut: "Fruit"
   doneness: "Pear Butter"
   temp_c: 83.9
   temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
   time_min: 120
+  time_max_min: 180
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Sauces and Syrups"
   cut: "Fruit"
   doneness: "Fig Jam"
   temp_c: 87.8
   temp_f: 190.0
+  temp_lo_c: 87.8
+  temp_hi_c: 87.8
   time_min: 120
+  time_max_min: 120
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Infusions"
   cut: "Infused Spirit"
   doneness: "Vodka"
   temp_c: 63.6
   temp_f: 146.5
+  temp_lo_c: 57.2
+  temp_hi_c: 70.0
   time_min: 30
+  time_max_min: 180
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
 - protein: "Infusions"
   cut: "Infused Oil"
   doneness: "Olive Oil"
   temp_c: 64.2
-  temp_f: 147.5
+  temp_f: 147.6
+  temp_lo_c: 57.2
+  temp_hi_c: 71.1
   time_min: 60
+  time_max_min: 180
   info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
+- protein: "Sauces, Syrups, and Infusions"
+  cut: "Vegetable - Marina"
+  doneness: "Marinara"
+  temp_c: 83.3
+  temp_f: 181.9
+  temp_lo_c: 83.3
+  temp_hi_c: 83.3
+  time_min: 50
+  time_max_min: 75
+  info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
+- protein: "Sauces, Syrups, and Infusions"
+  cut: "Vegetable - Chili Colorado"
+  doneness: "Chili Colorado"
+  temp_c: 71.1
+  temp_f: 160.0
+  temp_lo_c: 71.1
+  temp_hi_c: 71.1
+  time_min: 1440
+  time_max_min: 1440
+  info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
+- protein: "Sauces, Syrups, and Infusions"
+  cut: "Vegetable - Chili Verde"
+  doneness: "Chili Verde"
+  temp_c: 65.6
+  temp_f: 150.1
+  temp_lo_c: 65.6
+  temp_hi_c: 65.6
+  time_min: 2880
+  time_max_min: 2880
+  info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
+- protein: "Sauces, Syrups, and Infusions"
+  cut: "Meat"
+  doneness: "Barbacoa"
+  temp_c: 82.2
+  temp_f: 180.0
+  temp_lo_c: 82.2
+  temp_hi_c: 82.2
+  time_min: 480
+  time_max_min: 600
+  info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
+- protein: "Sauces, Syrups, and Infusions"
+  cut: "Meat"
+  doneness: "Bolognese"
+  temp_c: 80.0
+  temp_f: 176.0
+  temp_lo_c: 80.0
+  temp_hi_c: 80.0
+  time_min: 300
+  time_max_min: 360
+  info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
+- protein: "Sauces, Syrups, and Infusions"
+  cut: "Dairy - Bechamel"
+  doneness: "Bechamel"
+  temp_c: 83.9
+  temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
+  time_min: 60
+  time_max_min: 90
+  info: "Empty pouch into resealable container and stir in one direction to incorporate the butter."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
+- protein: "Sauces, Syrups, and Infusions"
+  cut: "Dairy - Velouté"
+  doneness: "Velouté"
+  temp_c: 83.9
+  temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
+  time_min: 60
+  time_max_min: 90
+  info: "Empty pouch into resealable container and stir in one direction to incorporate the butter."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
+- protein: "Sauces, Syrups, and Infusions"
+  cut: "Dairy - Toasted Cream"
+  doneness: "Toasted Cream"
+  temp_c: 82.2
+  temp_f: 180.0
+  temp_lo_c: 82.2
+  temp_hi_c: 82.2
+  time_min: 2880
+  time_max_min: 2880
+  info: "Before use, chill after cooking sous vide."
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
+- protein: "Sauces, Syrups, and Infusions"
+  cut: "Fruit"
+  doneness: "Applesauce"
+  temp_c: 82.2
+  temp_f: 180.0
+  temp_lo_c: 82.2
+  temp_hi_c: 82.2
+  time_min: 45
+  time_max_min: 60
+  info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
+- protein: "Sauces, Syrups, and Infusions"
+  cut: "Fruit"
+  doneness: "Pear Butter"
+  temp_c: 83.9
+  temp_f: 183.0
+  temp_lo_c: 83.9
+  temp_hi_c: 83.9
+  time_min: 120
+  time_max_min: 180
+  info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0
+- protein: "Sauces, Syrups, and Infusions"
+  cut: "Fruit"
+  doneness: "Fig Jam"
+  temp_c: 87.8
+  temp_f: 190.0
+  temp_lo_c: 87.8
+  temp_hi_c: 87.8
+  time_min: 120
+  time_max_min: 120
+  info: ""
+  thick_per_in: null
+  thick_over_in: null
+  thick_add_min: null
+  bone_double: false
+  bone_add_min: 0

@@ -16,6 +16,7 @@ import os
 import sys
 import threading
 import time
+import traceback
 import urllib.request
 import urllib.error
 
@@ -50,7 +51,11 @@ def api(method, path, token=None, body=None):
             return json.loads(r.read().decode())
     except urllib.error.HTTPError as e:
         detail = e.read().decode()[:500]
-        raise SystemExit(f"API {method} {path} -> HTTP {e.code}: {detail}")
+        # NOTE: RuntimeError, NOT SystemExit — api() is called from MQTT/WS
+        # worker threads where SystemExit would silently kill the thread
+        # (and a dead MQTT loop looks alive because the main thread keeps
+        # printing "polled:"). Uncaught in main, it still exits -> docker restarts.
+        raise RuntimeError(f"API {method} {path} -> HTTP {e.code}: {detail}")
 
 
 def login():
@@ -76,7 +81,7 @@ def pick_device(token):
         try:
             r = api("GET", path, token)
             break
-        except SystemExit:
+        except RuntimeError:
             continue
     if r is None:
         sys.exit("Could not list bound devices (tried /app/bindings and /app/devices).")
@@ -244,7 +249,8 @@ def load_recipes(path="recipes.yaml"):
 
 
 def recipe_options(recipes, protein=None, cut=None):
-    """Cascading options: all proteins; cuts for protein; doneness for cut."""
+    """Cascading options: proteins A-Z; cuts A-Z for protein; doneness names
+    for cut (temp order — see recipe_doneness for display labels)."""
     prots, cuts, cooks = [], [], []
     for r in recipes:
         if r["protein"] not in prots:
@@ -254,7 +260,37 @@ def recipe_options(recipes, protein=None, cut=None):
         if protein and cut and r["protein"] == protein and r["cut"] == cut \
                 and r["doneness"] not in cooks:
             cooks.append(r["doneness"])
-    return prots, cuts, cooks
+    return sorted(prots), sorted(cuts), cooks
+
+
+def doneness_label(entry):
+    return f"{entry['doneness']} · {entry['temp_c']}°C · {entry['time_min']}m"
+
+
+def fmt_mins(m):
+    h, mm = divmod(int(m or 0), 60)
+    if h and mm:
+        return f"{h}h {mm}m"
+    return f"{h}h" if h else f"{mm}m"
+
+
+def range_label(entry):
+    lo, hi, t0, t1 = entry["temp_lo_c"], entry["temp_hi_c"], entry["time_min"], entry["time_max_min"]
+    temp = f"{lo}°C" if lo == hi else f"{lo}-{hi}°C"
+    time = fmt_mins(t0) if t0 == t1 else f"{fmt_mins(t0)}-{fmt_mins(t1)}"
+    return f"{entry['doneness']} · {temp} · {time}"
+
+
+def recipe_doneness(recipes, protein, cut):
+    """(label, doneness) pairs for a cut, sorted by temp ascending.
+    Labels carry the guide range: 'Medium-Rare · 54-57°C · 45m-4h'."""
+    rows = [(r["temp_lo_c"], range_label(r), r["doneness"])
+            for r in recipes if r["protein"] == protein and r["cut"] == cut]
+    rows.sort(key=lambda t: (t[0] is None, t[0]))
+    return [(label, name) for _, label, name in rows]
+
+
+BONE_OPTIONS = ["N/A", "Boneless", "Bone-in"]
 
 
 def resolve_recipe(recipes, protein, cut, doneness):
@@ -270,6 +306,45 @@ def split_temp(temp_c, use_f):
     t = min(max(t, 41 if use_f else 5), 203 if use_f else 95)
     i = int(t)
     return i, int(round((t - i) * 10))
+
+
+# Thickness options (cm) offered like Sage's flow. The guide assumes ~1 inch
+# (2.5 cm); its own rule (+30..40 min per 1/2 inch over) is applied at midpoint.
+THICKNESSES = ["1.3 cm", "1.9 cm", "2.5 cm", "3.2 cm", "3.8 cm", "5.0 cm"]
+THICK_BASE_CM = 2.5
+THICK_STEP_CM = 1.27
+THICK_EXTRA_MIN = 35
+# Frozen rule of thumb (not guide data — clearly an estimate), applied only
+# to proteins where starting frozen is sane. Eggs/desserts/sauces/grains etc.
+# always cook from the tabulated values.
+FROZEN_FACTOR = 1.5
+FROZEN_PROTEINS = {"Beef", "Pork", "Poultry", "Lamb", "Fish and Seafood"}
+
+
+def adjust_time(base_min, entry, frozen, thickness, bone):
+    """Fresh/frozen + thickness + bone adjustments from the entry's own rules:
+    - thickness extra only when the guide note carries a thickness rule
+      (per/over/add parsed by the converter);
+    - frozen x1.5 only for FROZEN_PROTEINS (never eggs/desserts/sauces);
+    - bone-in doubles or adds minutes only when the entry says so.
+    Returns total minutes (int)."""
+    total = base_min
+    per = entry.get("thick_per_in")
+    if per:
+        try:
+            cm = float(thickness.split()[0])
+        except (ValueError, IndexError, AttributeError):
+            cm = THICK_BASE_CM
+        over_cm = (entry.get("thick_over_in") or 1.0) * 2.54
+        per_cm = per * 2.54
+        total += max(0, int((cm - over_cm) / per_cm + 0.5)) * (entry.get("thick_add_min") or 0)
+    if frozen == "Frozen" and entry.get("protein") in FROZEN_PROTEINS:
+        total *= FROZEN_FACTOR
+    if bone == "Bone-in":
+        if entry.get("bone_double"):
+            total *= 2
+        total += entry.get("bone_add_min") or 0
+    return int(round(total))
 
 
 def main():
@@ -291,7 +366,24 @@ def main():
     def publish_state(source):
         state = derive({"attr": dict(last_raw)})
         # recipe selection snapshot (callers hold raw_lock)
-        state["recipe"] = dict(recipe_sel) if recipes else None
+        if recipes:
+            snap = dict(recipe_sel)
+            entry = resolve_recipe(
+                recipes, snap["protein"], snap["cut"], snap["doneness"])
+            # Full detail snapshot so HA can show notes (thickness guidance
+            # etc.), temp and time without another lookup.
+            snap["doneness_label"] = range_label(entry) if entry else snap["doneness"]
+            snap["target_temp"] = snap.get("target")
+            snap["info"] = entry.get("info", "") if entry else ""
+            snap["temp_c"] = entry.get("temp_c") if entry else None
+            snap["time_min"] = entry.get("time_min") if entry else None
+            snap["cook_time_min"] = adjust_time(
+                snap["time_min"] or 0, entry,
+                snap.get("fresh", "Fresh"), snap.get("thickness", "2.5 cm"),
+                snap.get("bone", "N/A")) if entry else None
+            state["recipe"] = snap
+        else:
+            state["recipe"] = None
         mc.publish(state_topic, json.dumps(state), retain=True)
         print(f"{source}:", json.dumps(state)[:220])
 
@@ -311,8 +403,18 @@ def main():
         if not isinstance(attrs, dict):
             print("Ignoring non-object command")
             return
+        try:
+            handle_set(attrs)
+        except Exception:
+            # Never let a handler bug silently kill the MQTT loop thread.
+            traceback.print_exc()
+
+    def handle_set(attrs):
         if attrs.get("cook_recipe"):
-            do_cook()
+            # Worker thread: 3 sequential cloud calls + sleeps must never
+            # block the MQTT loop (a stuck loop looks alive — main thread
+            # keeps printing "polled:" — while nothing is received).
+            threading.Thread(target=do_cook, daemon=True).start()
             return
         # clean_model is deliberately NOT allowed (user scope decision) even
         # though the cloud marks it writable — the app never touches it.
@@ -346,47 +448,81 @@ def main():
     recipe_base = f"vesta/{did}/recipe"
     recipe_sel = {}
     if recipes:
-        prots, cuts, cooks = recipe_options(recipes)
-        recipe_sel = {"protein": prots[0], "cut": None, "doneness": None}
+        prots, cuts, _ = recipe_options(recipes)
+        recipe_sel = {"protein": prots[0], "cut": None, "doneness": None,
+                      "fresh": "Fresh", "thickness": "2.5 cm", "bone": "N/A",
+                      "target": None}
         _, cuts, _ = recipe_options(recipes, prots[0])
         recipe_sel["cut"] = cuts[0]
-        _, _, cooks = recipe_options(recipes, prots[0], cuts[0])
-        recipe_sel["doneness"] = cooks[0]
+        first = resolve_recipe(
+            recipes, prots[0], cuts[0],
+            recipe_doneness(recipes, prots[0], cuts[0])[0][1])
+        recipe_sel["doneness"] = first["doneness"]
+        recipe_sel["target"] = first["temp_c"]
 
     def do_cook():
         """Stage resolved recipe temp+time (paired, like the app) and heat on.
         Timer intentionally NOT started — user presses Timer Start at-temp."""
-        with raw_lock:
-            sel = dict(recipe_sel)
-            use_f = last_raw.get("temp_unit", 0) == 1
-        entry = resolve_recipe(recipes, sel["protein"], sel["cut"], sel["doneness"])
-        if not entry:
-            print("cook: no recipe resolved for", sel)
-            return
-        ti, td = split_temp(entry["temp_c"], use_f)
-        th, tm = divmod(int(entry["time_min"]), 60)
-        print(f"cook: {sel['protein']} / {sel['cut']} / {sel['doneness']}"
-              f" -> {ti}.{td}{'F' if use_f else 'C'}, {th}h{tm:02d}m")
-        api("POST", f"/app/control/{did}", token,
-            {"attrs": {"set_temp_integer": ti, "set_temp_decimal": td}})
-        time.sleep(1)
-        api("POST", f"/app/control/{did}", token,
-            {"attrs": {"set_time_hour": th, "set_time_min": tm}})
-        time.sleep(1)
-        api("POST", f"/app/control/{did}", token, {"attrs": {"onoff": True}})
+        try:
+            with raw_lock:
+                sel = dict(recipe_sel)
+                use_f = last_raw.get("temp_unit", 0) == 1
+            entry = resolve_recipe(recipes, sel["protein"], sel["cut"], sel["doneness"])
+            if not entry:
+                print("cook: no recipe resolved for", sel)
+                return
+            ti, td = split_temp(sel.get("target", entry["temp_c"]) or entry["temp_c"], use_f)
+            total_min = adjust_time(entry["time_min"], entry,
+                                    sel.get("fresh", "Fresh"),
+                                    sel.get("thickness", "2.5 cm"),
+                                    sel.get("bone", "N/A"))
+            th, tm = divmod(total_min, 60)
+            print(f"cook: {sel['protein']} / {sel['cut']} / {sel['doneness']}"
+                  f" [{sel.get('fresh')}, {sel.get('thickness')}, {sel.get('bone')}]"
+                  f" -> {ti}.{td}{'F' if use_f else 'C'}, {th}h{tm:02d}m")
+            api("POST", f"/app/control/{did}", token,
+                {"attrs": {"set_temp_integer": ti, "set_temp_decimal": td}})
+            time.sleep(1)
+            api("POST", f"/app/control/{did}", token,
+                {"attrs": {"set_time_hour": th, "set_time_min": tm}})
+            time.sleep(1)
+            api("POST", f"/app/control/{did}", token, {"attrs": {"onoff": True}})
+        except Exception:
+            traceback.print_exc()
 
     def publish_recipe_selects(client):
         if not recipes:
             return
-        prots, cuts, cooks = recipe_options(
+        prots, cuts, _ = recipe_options(
             recipes, recipe_sel["protein"], recipe_sel["cut"])
-        for level, opts in (("protein", prots), ("cut", cuts), ("doneness", cooks)):
+        dons = recipe_doneness(recipes, recipe_sel["protein"], recipe_sel["cut"])
+        cur = resolve_recipe(recipes, recipe_sel["protein"],
+                             recipe_sel["cut"], recipe_sel["doneness"])
+        # Fresh/thickness/bone only exist where they mean something (eggs show
+        # none of them): frozen needs a freezable protein, thickness/bone need
+        # a rule on the entry. Inapplicable selects are DELETED so
+        # HA drops the entities instead of showing dead controls.
+        show_fresh = recipe_sel["protein"] in FROZEN_PROTEINS
+        show_thick = bool(cur and cur.get("thick_per_in"))
+        show_bone = bool(cur and (cur.get("bone_double") or cur.get("bone_add_min")))
+        for level, opts, field, step, show in (
+                ("protein", prots, "protein", 1, True),
+                ("cut", cuts, "cut", 2, True),
+                ("doneness", [label for label, _ in dons], "doneness_label", 3, True),
+                ("fresh", ["Fresh", "Frozen"], "fresh", 4, show_fresh),
+                ("thickness", THICKNESSES, "thickness", 5, show_thick),
+                ("bone", BONE_OPTIONS, "bone", 6, show_bone)):
+            topic = f"{DISCOVERY_PREFIX}/select/{node}_recipe_{level}/config"
+            if not show:
+                client.publish(topic, b"", retain=True)
+                continue
             client.publish(
                 f"{DISCOVERY_PREFIX}/select/{node}_recipe_{level}/config", json.dumps({
-                    "name": f"Vesta Recipe {level.capitalize()}",
+                    # numbered prefix so HA sorts Protein -> Cut -> Doneness
+                    "name": f"Vesta Recipe {step} - {level.capitalize()}",
                     "unique_id": f"{node}_recipe_{level}",
                     "state_topic": state_topic,
-                    "value_template": f"{{{{ value_json.recipe.{level} }}}}",
+                    "value_template": f"{{{{ value_json.recipe.{field} }}}}",
                     "command_topic": f"{recipe_base}/{level}/set",
                     "options": opts,
                     "availability_topic": state_topic + "/availability",
@@ -401,32 +537,80 @@ def main():
                 "device": {"identifiers": [did], "name": "Vesta Sous Vide",
                            "model": "SousVideCooker"},
             }), retain=True)
+        # Cook target temp: bounded by the current selection's guide range,
+        # defaults to its midpoint. Cook stages this, not the midpoint.
+        cur = resolve_recipe(recipes, recipe_sel["protein"],
+                             recipe_sel["cut"], recipe_sel["doneness"])
+        if cur:
+            client.publish(
+                f"{DISCOVERY_PREFIX}/number/{node}_recipe_target/config", json.dumps({
+                    "name": "Vesta Recipe Target Temp", "unique_id": f"{node}_recipe_target",
+                    "state_topic": state_topic,
+                    "value_template": "{{ value_json.recipe.target_temp }}",
+                    "command_topic": f"{recipe_base}/target/set",
+                    "min": cur["temp_lo_c"], "max": cur["temp_hi_c"],
+                    "step": 0.1, "mode": "box", "unit_of_measurement": "°C",
+                    "availability_topic": state_topic + "/availability",
+                    "device": {"identifiers": [did], "name": "Vesta Sous Vide",
+                               "model": "SousVideCooker"},
+                }), retain=True)
 
     def on_recipe_select(client, userdata, msg):
         # topic vesta/<did>/recipe/<protein|cut|doneness>/set, raw option string
-        level = msg.topic.rsplit("/", 2)[-2]
-        choice = msg.payload.decode().strip()
+        try:
+            level = msg.topic.rsplit("/", 2)[-2]
+            choice = msg.payload.decode().strip()
+        except Exception:
+            traceback.print_exc()
+            return
         with raw_lock:
-            prots, cuts, cooks = recipe_options(
-                recipes, recipe_sel["protein"], recipe_sel["cut"])
-            if level == "protein" and choice in prots:
-                recipe_sel["protein"] = choice
-                _, ncuts, _ = recipe_options(recipes, choice)
-                recipe_sel["cut"] = ncuts[0]
-                _, _, ncooks = recipe_options(recipes, choice, ncuts[0])
-                recipe_sel["doneness"] = ncooks[0]
-            elif level == "cut" and choice in cuts:
-                recipe_sel["cut"] = choice
-                _, _, ncooks = recipe_options(recipes, recipe_sel["protein"], choice)
-                recipe_sel["doneness"] = ncooks[0]
-            elif level == "doneness" and choice in cooks:
-                recipe_sel["doneness"] = choice
-            else:
-                print(f"recipe: ignoring invalid {level}={choice!r}")
-                return
-            print("recipe: now", recipe_sel)
-            publish_recipe_selects(client)
-            publish_state("recipe")
+            try:
+                prots, cuts, _ = recipe_options(
+                    recipes, recipe_sel["protein"], recipe_sel["cut"])
+                dons = dict(recipe_doneness(
+                    recipes, recipe_sel["protein"], recipe_sel["cut"]))
+                if level == "protein" and choice in prots:
+                    recipe_sel["protein"] = choice
+                    _, ncuts, _ = recipe_options(recipes, choice)
+                    recipe_sel["cut"] = ncuts[0]
+                    first = resolve_recipe(
+                        recipes, choice, ncuts[0],
+                        recipe_doneness(recipes, choice, ncuts[0])[0][1])
+                    recipe_sel["doneness"] = first["doneness"]
+                    recipe_sel["target"] = first["temp_c"]
+                elif level == "cut" and choice in cuts:
+                    recipe_sel["cut"] = choice
+                    first = resolve_recipe(
+                        recipes, recipe_sel["protein"], choice,
+                        recipe_doneness(recipes, recipe_sel["protein"], choice)[0][1])
+                    recipe_sel["doneness"] = first["doneness"]
+                    recipe_sel["target"] = first["temp_c"]
+                elif level == "doneness" and choice in dons:
+                    recipe_sel["doneness"] = dons[choice]
+                    entry = resolve_recipe(recipes, recipe_sel["protein"],
+                                           recipe_sel["cut"], dons[choice])
+                    recipe_sel["target"] = entry["temp_c"] if entry else None
+                elif level == "fresh" and choice in ("Fresh", "Frozen"):
+                    recipe_sel["fresh"] = choice
+                elif level == "thickness" and choice in THICKNESSES:
+                    recipe_sel["thickness"] = choice
+                elif level == "bone" and choice in BONE_OPTIONS:
+                    recipe_sel["bone"] = choice
+                elif level == "target":
+                    try:
+                        recipe_sel["target"] = round(float(choice), 1)
+                    except (ValueError, TypeError):
+                        print(f"recipe: ignoring invalid target={choice!r}")
+                        return
+                else:
+                    print(f"recipe: ignoring invalid {level}={choice!r}")
+                    return
+                print("recipe: now", recipe_sel)
+                publish_recipe_selects(client)
+                publish_state("recipe")
+            except Exception:
+                # Never let a handler bug silently kill the MQTT loop thread.
+                traceback.print_exc()
 
     mc.message_callback_add(f"{recipe_base}/+/set", on_recipe_select)
 
@@ -461,6 +645,17 @@ def main():
         }), retain=True)
         avail = state_topic + "/availability"
         dev = {"identifiers": [did], "name": "Vesta Sous Vide", "model": "SousVideCooker"}
+        # Selected recipe notes (thickness guidance etc.); falls back to the
+        # cut + doneness label when the guide has no note for an entry.
+        # Temp/time ride along as attributes.
+        client.publish(f"{DISCOVERY_PREFIX}/sensor/{node}_recipe_notes/config", json.dumps({
+            "name": "Vesta Recipe Notes", "unique_id": f"{node}_recipe_notes",
+            "state_topic": state_topic,
+            "value_template": "{% if value_json.recipe.info %}{{ value_json.recipe.info }}{% else %}{{ value_json.recipe.cut }} - {{ value_json.recipe.doneness_label }}{% endif %}",
+            "json_attributes_topic": state_topic,
+            "json_attributes_template": '{"temperature_c": {{ value_json.recipe.temp_c | default(0, true) }}, "time_min": {{ value_json.recipe.time_min | default(0, true) }}, "cut": "{{ value_json.recipe.cut }}", "doneness": "{{ value_json.recipe.doneness }}"}',
+            "availability_topic": avail, "device": dev,
+        }), retain=True)
         # Timer as ONE control: total minutes (0-5999). Split into the
         # hour/min pair the firmware demands, like the app does.
         client.publish(f"{DISCOVERY_PREFIX}/number/{node}_timer/config", json.dumps({
@@ -529,12 +724,15 @@ def main():
         # (Re)subscribe + mark online + (re)publish discovery on every
         # (re)connect, so a dropped connection never leaves a stale
         # retained "offline" behind and HA always finds us.
-        subs = [(set_topic, 0), (f"{DISCOVERY_PREFIX}/status", 0)]
-        if recipes:
-            subs.append((f"{recipe_base}/+/set", 0))
-        client.subscribe(subs)
-        client.publish(state_topic + "/availability", "online", retain=True)
-        publish_discovery(client)
+        try:
+            subs = [(set_topic, 0), (f"{DISCOVERY_PREFIX}/status", 0)]
+            if recipes:
+                subs.append((f"{recipe_base}/+/set", 0))
+            client.subscribe(subs)
+            client.publish(state_topic + "/availability", "online", retain=True)
+            publish_discovery(client)
+        except Exception:
+            traceback.print_exc()
 
     mc.on_connect = on_connect
     mc.connect_async(MQTT_HOST, MQTT_PORT, 60)
