@@ -123,6 +123,40 @@ the discovery prefix is `homeassistant`, or reload the MQTT integration.
 | Vesta Time Remaining | sensor | minutes |
 | 8× alerts (At Temperature, Cooking Finished, Low/No Water, …) | binary_sensor | fault-type ones carry `device_class: problem` |
 
+## Cookbook (`recipes.yaml`, 150 guide entries)
+
+Converted from the vendor app's built-in cooking guide (protein → cut →
+doneness, °C primary). Three cascading selects narrow the choice
+(`Vesta Recipe Protein` → `Cut` → `Doneness`); **`Vesta Recipe Cook`** then
+stages temp + time on the cooker and starts heating — timer intentionally not
+started. When the water is ready, HA tells you; add food and press
+**Vesta Timer Start**; the finished alert closes the loop.
+
+```yaml
+# automations.yaml — water ready + cook finished notifications
+- alias: "Sous vide water ready"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.vesta_at_temperature
+      to: "on"
+  action:
+    - service: notify.notify
+      data:
+        message: "Water at {{ state_attr('climate.vesta_sous_vide', 'current_temperature') }} — add food, then press Timer Start."
+
+- alias: "Sous vide finished"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.vesta_cooking_finished
+      to: "on"
+  action:
+    - service: notify.notify
+      data:
+        message: "Sous vide is done."
+```
+
+(Entity IDs depend on your HA naming — adjust to match.)
+
 ## Troubleshooting
 
 - `docker logs vesta-bridge` prints every `control ->` with the cloud response.

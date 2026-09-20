@@ -226,6 +226,52 @@ def derive(payload):
     return state
 
 
+def load_recipes(path="recipes.yaml"):
+    """Load the cookbook converted from the app guide. [] if absent."""
+    try:
+        import yaml
+    except ImportError:
+        print("recipes: pyyaml not installed, cookbook disabled")
+        return []
+    try:
+        with open(path) as f:
+            recs = yaml.safe_load(f) or []
+        print(f"recipes: loaded {len(recs)} entries from {path}")
+        return recs
+    except FileNotFoundError:
+        print(f"recipes: {path} not found, cookbook disabled")
+        return []
+
+
+def recipe_options(recipes, protein=None, cut=None):
+    """Cascading options: all proteins; cuts for protein; doneness for cut."""
+    prots, cuts, cooks = [], [], []
+    for r in recipes:
+        if r["protein"] not in prots:
+            prots.append(r["protein"])
+        if protein and r["protein"] == protein and r["cut"] not in cuts:
+            cuts.append(r["cut"])
+        if protein and cut and r["protein"] == protein and r["cut"] == cut \
+                and r["doneness"] not in cooks:
+            cooks.append(r["doneness"])
+    return prots, cuts, cooks
+
+
+def resolve_recipe(recipes, protein, cut, doneness):
+    for r in recipes:
+        if r["protein"] == protein and r["cut"] == cut and r["doneness"] == doneness:
+            return r
+    return None
+
+
+def split_temp(temp_c, use_f):
+    """Split a °C float into (integer, tenths) in the cooker's active unit."""
+    t = temp_c * 9.0 / 5.0 + 32.0 if use_f else temp_c
+    t = min(max(t, 41 if use_f else 5), 203 if use_f else 95)
+    i = int(t)
+    return i, int(round((t - i) * 10))
+
+
 def main():
     import paho.mqtt.client as mqtt  # lazy import so --help works without deps
 
@@ -244,6 +290,8 @@ def main():
 
     def publish_state(source):
         state = derive({"attr": dict(last_raw)})
+        # recipe selection snapshot (callers hold raw_lock)
+        state["recipe"] = dict(recipe_sel) if recipes else None
         mc.publish(state_topic, json.dumps(state), retain=True)
         print(f"{source}:", json.dumps(state)[:220])
 
@@ -259,6 +307,12 @@ def main():
             attrs = json.loads(msg.payload.decode())
         except ValueError:
             print("Ignoring non-JSON command")
+            return
+        if not isinstance(attrs, dict):
+            print("Ignoring non-object command")
+            return
+        if attrs.get("cook_recipe"):
+            do_cook()
             return
         # clean_model is deliberately NOT allowed (user scope decision) even
         # though the cloud marks it writable — the app never touches it.
@@ -287,10 +341,100 @@ def main():
     mc.message_callback_add(set_topic, on_set)
     node = f"vesta_{did[-6:]}"
 
+    # --- Cookbook (cascading selects -> cook button stages + starts heat) ---
+    recipes = load_recipes()
+    recipe_base = f"vesta/{did}/recipe"
+    recipe_sel = {}
+    if recipes:
+        prots, cuts, cooks = recipe_options(recipes)
+        recipe_sel = {"protein": prots[0], "cut": None, "doneness": None}
+        _, cuts, _ = recipe_options(recipes, prots[0])
+        recipe_sel["cut"] = cuts[0]
+        _, _, cooks = recipe_options(recipes, prots[0], cuts[0])
+        recipe_sel["doneness"] = cooks[0]
+
+    def do_cook():
+        """Stage resolved recipe temp+time (paired, like the app) and heat on.
+        Timer intentionally NOT started — user presses Timer Start at-temp."""
+        with raw_lock:
+            sel = dict(recipe_sel)
+            use_f = last_raw.get("temp_unit", 0) == 1
+        entry = resolve_recipe(recipes, sel["protein"], sel["cut"], sel["doneness"])
+        if not entry:
+            print("cook: no recipe resolved for", sel)
+            return
+        ti, td = split_temp(entry["temp_c"], use_f)
+        th, tm = divmod(int(entry["time_min"]), 60)
+        print(f"cook: {sel['protein']} / {sel['cut']} / {sel['doneness']}"
+              f" -> {ti}.{td}{'F' if use_f else 'C'}, {th}h{tm:02d}m")
+        api("POST", f"/app/control/{did}", token,
+            {"attrs": {"set_temp_integer": ti, "set_temp_decimal": td}})
+        time.sleep(1)
+        api("POST", f"/app/control/{did}", token,
+            {"attrs": {"set_time_hour": th, "set_time_min": tm}})
+        time.sleep(1)
+        api("POST", f"/app/control/{did}", token, {"attrs": {"onoff": True}})
+
+    def publish_recipe_selects(client):
+        if not recipes:
+            return
+        prots, cuts, cooks = recipe_options(
+            recipes, recipe_sel["protein"], recipe_sel["cut"])
+        for level, opts in (("protein", prots), ("cut", cuts), ("doneness", cooks)):
+            client.publish(
+                f"{DISCOVERY_PREFIX}/select/{node}_recipe_{level}/config", json.dumps({
+                    "name": f"Vesta Recipe {level.capitalize()}",
+                    "unique_id": f"{node}_recipe_{level}",
+                    "state_topic": state_topic,
+                    "value_template": f"{{{{ value_json.recipe.{level} }}}}",
+                    "command_topic": f"{recipe_base}/{level}/set",
+                    "options": opts,
+                    "availability_topic": state_topic + "/availability",
+                    "device": {"identifiers": [did], "name": "Vesta Sous Vide",
+                               "model": "SousVideCooker"},
+                }), retain=True)
+        client.publish(
+            f"{DISCOVERY_PREFIX}/button/{node}_recipe_cook/config", json.dumps({
+                "name": "Vesta Recipe Cook", "unique_id": f"{node}_recipe_cook",
+                "command_topic": set_topic, "payload_press": '{"cook_recipe": true}',
+                "availability_topic": state_topic + "/availability",
+                "device": {"identifiers": [did], "name": "Vesta Sous Vide",
+                           "model": "SousVideCooker"},
+            }), retain=True)
+
+    def on_recipe_select(client, userdata, msg):
+        # topic vesta/<did>/recipe/<protein|cut|doneness>/set, raw option string
+        level = msg.topic.rsplit("/", 2)[-2]
+        choice = msg.payload.decode().strip()
+        with raw_lock:
+            prots, cuts, cooks = recipe_options(
+                recipes, recipe_sel["protein"], recipe_sel["cut"])
+            if level == "protein" and choice in prots:
+                recipe_sel["protein"] = choice
+                _, ncuts, _ = recipe_options(recipes, choice)
+                recipe_sel["cut"] = ncuts[0]
+                _, _, ncooks = recipe_options(recipes, choice, ncuts[0])
+                recipe_sel["doneness"] = ncooks[0]
+            elif level == "cut" and choice in cuts:
+                recipe_sel["cut"] = choice
+                _, _, ncooks = recipe_options(recipes, recipe_sel["protein"], choice)
+                recipe_sel["doneness"] = ncooks[0]
+            elif level == "doneness" and choice in cooks:
+                recipe_sel["doneness"] = choice
+            else:
+                print(f"recipe: ignoring invalid {level}={choice!r}")
+                return
+            print("recipe: now", recipe_sel)
+            publish_recipe_selects(client)
+            publish_state("recipe")
+
+    mc.message_callback_add(f"{recipe_base}/+/set", on_recipe_select)
+
     def publish_discovery(client):
         # HA MQTT discovery: climate + key sensors (retained so HA picks
         # them up on restart). Must run AFTER connect — pre-connect
         # publishes are silently dropped, which is why HA saw nothing.
+        publish_recipe_selects(client)
         client.publish(f"{DISCOVERY_PREFIX}/climate/{node}/config", json.dumps({
             "name": "Vesta Sous Vide",
             "unique_id": node + "_climate",
@@ -385,7 +529,10 @@ def main():
         # (Re)subscribe + mark online + (re)publish discovery on every
         # (re)connect, so a dropped connection never leaves a stale
         # retained "offline" behind and HA always finds us.
-        client.subscribe([(set_topic, 0), (f"{DISCOVERY_PREFIX}/status", 0)])
+        subs = [(set_topic, 0), (f"{DISCOVERY_PREFIX}/status", 0)]
+        if recipes:
+            subs.append((f"{recipe_base}/+/set", 0))
+        client.subscribe(subs)
         client.publish(state_topic + "/availability", "online", retain=True)
         publish_discovery(client)
 
