@@ -41,6 +41,20 @@ cp .env.example .env
 # edit .env: GIZ_USER + GIZ_PASS (or GIZ_UID + GIZ_TOKEN), MQTT_HOST, ...
 ```
 
+Prebuilt images are published on every GitHub release (plus manual runs) to
+both registries, `linux/amd64` + `linux/arm64`:
+
+- `ghcr.io/fcolasuonno/vesta-sous-vide-ha-bridge:latest` (and `:vX.Y.Z` per release)
+- `docker.io/fcolasuonno/vesta-sous-vide-ha-bridge:latest`
+
+```bash
+docker run -d --name vesta-bridge --restart unless-stopped --env-file .env \
+  ghcr.io/fcolasuonno/vesta-sous-vide-ha-bridge:latest
+```
+
+> Maintainers: Docker Hub pushes need `DOCKERHUB_USERNAME` + `DOCKERHUB_TOKEN`
+> repo secrets (GHCR uses the automatic `GITHUB_TOKEN`).
+
 ### Option A — plain Docker
 
 ```bash
