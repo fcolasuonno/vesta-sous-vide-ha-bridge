@@ -734,10 +734,15 @@ def main():
             "availability_topic": avail, "device": dev,
         }), retain=True)
         # Temperature unit (temp_unit: 0 = C, 1 = F, like the app)
+        # Use the derived top-level `unit` field, not `raw.temp_unit`. A
+        # missing/unexpected nested value makes the template raise; HA then
+        # feeds the raw JSON payload to the select -> "Invalid option ...
+        # '{"on": false, "unit": "°C", ...}'". Guard the render so it can
+        # only ever emit one of the declared options.
         client.publish(f"{DISCOVERY_PREFIX}/select/{node}_temp_unit/config", json.dumps({
             "name": "Vesta Temp Unit", "unique_id": f"{node}_temp_unit",
             "state_topic": state_topic,
-            "value_template": "{% if value_json.raw.temp_unit | int == 1 %}\u00b0F{% else %}\u00b0C{% endif %}",
+            "value_template": "{% if value_json is mapping and value_json.unit in ['\u00b0C', '\u00b0F'] %}{{ value_json.unit }}{% else %}\u00b0C{% endif %}",
             "command_topic": set_topic,
             "command_template": "{% if value == '\u00b0F' %}{\"temp_unit\": 1}{% else %}{\"temp_unit\": 0}{% endif %}",
             "options": ["\u00b0C", "\u00b0F"],
